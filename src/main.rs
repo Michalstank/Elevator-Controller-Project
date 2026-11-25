@@ -1,26 +1,19 @@
-use std::thread::{self, JoinHandle};
-
-use crate::network_driver::udp_handler::udp_handler::UdpServer;
+use std::{thread::{self, JoinHandle}, time::Duration};
 
 mod mutex_handler;
 mod standby_system;
-mod network_driver;
 mod elevator_driver;
 mod memory_controller;
+mod network_driver;
+
+use crate::network_driver::{tcp_handler::tcp_handler::TcpServer, udp_handler::udp_handler::UdpServer};
 
 fn main() {
     let mut elevator_tasks: Vec<JoinHandle<()>> = Vec::new();
 
-    // Network Thread Tx
+    // Network Thread
     elevator_tasks.push(thread::spawn(move || {
-        use network_driver::{tcp_handler, udp_handler};
-        let udp: UdpServer = UdpServer::spawn();
-        
-    }));
-
-    // Network Thread Rx
-    elevator_tasks.push(thread::spawn(move || {
-        use network_driver;
+        network_driver::network_thread();
     }));
 
     // Standby System Thread

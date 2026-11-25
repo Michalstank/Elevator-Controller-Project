@@ -1,5 +1,7 @@
 use std::thread::{self, JoinHandle};
 
+use crate::network_driver::udp_handler::udp_handler::UdpServer;
+
 mod mutex_handler;
 mod standby_system;
 mod network_driver;
@@ -11,7 +13,9 @@ fn main() {
 
     // Network Thread Tx
     elevator_tasks.push(thread::spawn(move || {
-        use network_driver;
+        use network_driver::{tcp_handler, udp_handler};
+        let udp: UdpServer = UdpServer::spawn();
+        
     }));
 
     // Network Thread Rx

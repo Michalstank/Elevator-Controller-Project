@@ -1,12 +1,10 @@
-use std::{thread::{self, JoinHandle}, time::Duration};
+use std::{thread::{self, JoinHandle}};
 
 mod mutex_handler;
 mod standby_system;
 mod elevator_driver;
 mod memory_controller;
 mod network_driver;
-
-use crate::network_driver::{tcp_handler::tcp_handler::TcpServer, udp_handler::udp_handler::UdpServer};
 
 fn main() {
     let mut elevator_tasks: Vec<JoinHandle<()>> = Vec::new();
@@ -18,17 +16,23 @@ fn main() {
 
     // Standby System Thread
     elevator_tasks.push(thread::spawn(move || {
-        use standby_system;
+        loop {
+            println!("standby")
+        }
     }));
 
     // Memory Controller Thread
     elevator_tasks.push(thread::spawn(move || {
-        use memory_controller;
+        loop {
+            println!("mem")
+        }
     }));
 
     // Elevator Driver Thread
     elevator_tasks.push(thread::spawn(move || {
-        use elevator_driver;
+        loop {
+            println!("elev")
+        }
     }));
 
     for task in elevator_tasks {
